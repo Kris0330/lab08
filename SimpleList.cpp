@@ -1,15 +1,15 @@
 #include "SimpleList.h"
-#include <stdexcept> // 為了使用例外處理
+#include <stdexcept> 
 
 template <class T>
 SimpleList<T>::SimpleList() {
     numElements = 0;
-    elements = new T[CAPACITY]; // 配置記憶體
+    elements = new T[CAPACITY]; 
 }
 
 template <class T>
 SimpleList<T>::~SimpleList() {
-    delete[] elements; // 釋放記憶體
+    delete[] elements; 
 }
 
 template <class T>
