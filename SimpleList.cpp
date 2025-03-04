@@ -1,5 +1,6 @@
 #include "SimpleList.h"
-#include <stdexcept> 
+#include <stdexcept>
+#include <type_traits> 
 
 template <class T>
 SimpleList<T>::SimpleList() {
@@ -9,13 +10,19 @@ SimpleList<T>::SimpleList() {
 
 template <class T>
 SimpleList<T>::~SimpleList() {
+    if constexpr (std::is_pointer<T>::value) {
+  
+        for (int i = 0; i < numElements; i++) {
+            delete elements[i]; 
+        }
+    }
     delete[] elements; 
 }
 
 template <class T>
 T SimpleList<T>::at(int index) const {
     if (index < 0 || index >= numElements) {
-        throw InvalidIndexException(); 
+        throw InvalidIndexException();
     }
     return elements[index];
 }
@@ -36,7 +43,7 @@ T SimpleList<T>::first() const {
 template <class T>
 T SimpleList<T>::last() const {
     if (empty()) {
-        throw EmptyListException(); 
+        throw EmptyListException();
     }
     return elements[numElements - 1];
 }
@@ -49,18 +56,18 @@ int SimpleList<T>::getNumElements() const {
 template <class T>
 void SimpleList<T>::insert(T item) {
     if (numElements == CAPACITY) {
-        throw FullListException(); 
+        throw FullListException();
     }
-    elements[numElements++] = item; 
+    elements[numElements++] = item;
 }
 
 template <class T>
 void SimpleList<T>::remove(int index) {
     if (empty()) {
-        throw EmptyListException(); 
+        throw EmptyListException();
     }
     if (index < 0 || index >= numElements) {
-        throw InvalidIndexException(); 
+        throw InvalidIndexException();
     }
     for (int i = index; i < numElements - 1; ++i) {
         elements[i] = elements[i + 1];
