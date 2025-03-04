@@ -5,13 +5,13 @@
 template <class T>
 SimpleList<T>::SimpleList() {
     numElements = 0;
-    elements = new T[CAPACITY]; 
+    elements = new T[CAPACITY];
 }
 
 template <class T>
 SimpleList<T>::~SimpleList() {
     if constexpr (std::is_pointer<T>::value) {
-  
+
         for (int i = 0; i < numElements; i++) {
             delete elements[i]; 
         }
@@ -69,9 +69,15 @@ void SimpleList<T>::remove(int index) {
     if (index < 0 || index >= numElements) {
         throw InvalidIndexException();
     }
+
+    if constexpr (std::is_pointer<T>::value) {
+        delete elements[index]; 
+    }
+
     for (int i = index; i < numElements - 1; ++i) {
-        elements[i] = elements[i + 1];
+        elements[i] = elements[i + 1]; 
     }
     --numElements;
 }
+
 
